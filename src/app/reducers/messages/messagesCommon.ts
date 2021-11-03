@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { Console } from 'console';
 
 interface MessagesArray {
    createdAt:string;
@@ -38,19 +39,22 @@ export const messagesCommon = createSlice({
          state.messagesNext += 15;
       },
       messageYourCommon(state,action: PayloadAction<MessagesArray>) {
-         if(state.scrollAvailable) state.messagesCommon.push(action.payload)
+         state.messagesCommon.push(action.payload)
       }
    },
    extraReducers:{
       [messagesAsyncCommon.fulfilled.type]: (state, action: PayloadAction<MessagesArray[]>) => {
          for (let oldMessages in state.messagesCommon) {
             for(let newMesaages in action.payload) {
-               if(state.messagesCommon[oldMessages].id === action.payload[newMesaages].id) {
+               if(action.payload[oldMessages].id === action.payload[newMesaages].id) {
                   state.scrollAvailable = false;
                }
             }
          }
-         
+         action.payload.sort((prevDate: MessagesArray, NextDate: MessagesArray): number => {
+            return new Date(prevDate.createdAt).getTime() - new Date(NextDate.createdAt).getTime();
+         })
+
          if(state.scrollAvailable) state.messagesCommon.unshift(...action.payload)
       }
    }

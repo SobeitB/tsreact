@@ -16,6 +16,10 @@ import {useAppDispatch,useAppSelector} from '../../app/hooks';
 import {messagesCommon} from '../../app/reducers/messages/messagesCommon';
 import {nanoid} from '@reduxjs/toolkit'
 
+const ws = openSocket('wss://test-chat-backend-hwads.ondigitalocean.app', {
+   transports: ["websocket"],
+   upgrade: false,
+});
 
 const MainComponents = () => {
    const dispatch = useAppDispatch();
@@ -38,14 +42,13 @@ const MainComponents = () => {
       }
    }, [chatType])
 
-   const ws = openSocket('wss://test-chat-backend-hwads.ondigitalocean.app', {
-      transports: ["websocket"],
-      upgrade: false,
-   });
-
    let handler = useCallback((data) => {
       dispatch(messageYourCommon(data));
    }, []);
+
+   useEffect(() => {
+      console.log(ws)
+   }, [ws])
 
    useEffect(() => {
       ws.on('message', handler)

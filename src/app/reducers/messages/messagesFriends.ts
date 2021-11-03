@@ -51,6 +51,10 @@ export const messagesFriends = createSlice({
             }
          }
 
+         action.payload.sort((prevDate: MessagesArray, NextDate: MessagesArray): number => {
+            return new Date(prevDate.createdAt).getTime() - new Date(NextDate.createdAt).getTime();
+         })
+         
          if(state.scrollAvailable) state.messages.unshift(...action.payload)
       }
    }
