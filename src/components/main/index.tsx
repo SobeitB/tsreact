@@ -62,7 +62,7 @@ const MainComponents = () => {
       let observerRef = new IntersectionObserver((entry) => { 
          if(entry[0].isIntersecting) {
             dispatch(messageNewCommon())
-            dispatch(messagesAsyncCommon(chatBody))
+            dispatch(messagesAsyncCommon())
             if(chatBody.current !== null) {
                console.log(chatBody)
                const chatBodyCurrent: any = chatBody.current
