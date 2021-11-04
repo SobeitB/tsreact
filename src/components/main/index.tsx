@@ -29,7 +29,7 @@ const MainComponents = () => {
    const {messageNewCommon} = messagesCommon.actions;
    const {messageYourCommon} = messagesCommon.actions;
 
-   const chatBody = useRef(null);
+   const chatBody = useRef<HTMLDivElement>(null);
    const chatNumber = useRef<HTMLDivElement>(null);
    const valid = yup.object().shape({
       message: yup.string().required('имя Обязателен').max(200, "Максимум 200 симвовло в сообщении"),
@@ -62,8 +62,9 @@ const MainComponents = () => {
       let observerRef = new IntersectionObserver((entry) => { 
          if(entry[0].isIntersecting) {
             dispatch(messageNewCommon())
-            dispatch(messagesAsyncCommon())
+            dispatch(messagesAsyncCommon(chatBody))
             if(chatBody.current !== null) {
+               console.log(chatBody)
                const chatBodyCurrent: any = chatBody.current
                chatBodyCurrent.scrollTop = chatBodyCurrent.scrollHeight;
             } 

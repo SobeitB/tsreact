@@ -16,7 +16,8 @@ interface InitialInterface {
 
 export const messagesAsyncCommon = createAsyncThunk(
    "users/messagesUsersCommon",
-   async (_, {getState}) => {
+   async (action, {getState}) => {
+      console.log(action);
       const state:any = getState()
       const stateMessagesNext:number = state.messagesCommon.messagesNext
       const response = await fetch(`https://test-chat-backend-hwads.ondigitalocean.app/api/messages?skip=${stateMessagesNext}&limit=15`);
